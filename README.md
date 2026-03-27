@@ -6,7 +6,7 @@ RESTful API for managing users and passwords. Built with Node.js, Express, and P
 
 ```bash
 git clone <repository-url>
-cd auth_project_asses
+cd auth_project_assessment
 cp .env.example .env        # edit with your credentials
 docker compose up -d --build
 docker compose exec app npm run setup-apikeys my-client
