@@ -1,8 +1,0 @@
-commands to view and generate API keys (since the after the restart of containers it is not valid anymore to aut generate new ones)
-
-Generate a new API key:
-docker-compose exec -T app npm run setup-apikeys -- "default-client" 2>&1
-
-Print API keys already stored (shows api_key UUIDs):
-docker exec -it user_management_db psql -U postgres -d user_management_db \
-  -c "select api_key, client_name, is_active, created_at, last_used from api_keys order by created_at desc limit 20;"
