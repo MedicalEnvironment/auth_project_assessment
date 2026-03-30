@@ -1,6 +1,6 @@
 const UserModel = require('../models/userModel');
 const logger = require('../config/logger');
-const { validateEmail, validateUsername, validatePassword: validatePwd } = require('../middleware/validateInput');
+const { validateEmail, validateUsername, validatePassword: validatePwd, validateFullName, validateMobileNumber } = require('../middleware/validateInput');
 
 /** Map a DB row (snake_case) to a camelCase API response object. */
 function formatUserResponse(user) {
@@ -55,7 +55,21 @@ class UserController {
       if (!validatePwd(password)) {
         return res.status(400).json({
           success: false,
-          message: 'Password must be at least 8 characters long'
+          message: 'Password must be at least 8 characters and include uppercase, lowercase, number, and special character'
+        });
+      }
+
+      if (!validateFullName(fullName)) {
+        return res.status(400).json({
+          success: false,
+          message: 'Invalid full name. Must contain only letters, spaces, hyphens, or apostrophes'
+        });
+      }
+
+      if (mobileNumber !== undefined && mobileNumber !== null && !validateMobileNumber(mobileNumber)) {
+        return res.status(400).json({
+          success: false,
+          message: 'Invalid mobile number. Must contain only digits (7-15), optionally prefixed with +'
         });
       }
 
@@ -217,7 +231,21 @@ class UserController {
       if (password !== undefined && !validatePwd(password)) {
         return res.status(400).json({
           success: false,
-          message: 'Password must be at least 8 characters long'
+          message: 'Password must be at least 8 characters and include uppercase, lowercase, number, and special character'
+        });
+      }
+
+      if (fullName !== undefined && !validateFullName(fullName)) {
+        return res.status(400).json({
+          success: false,
+          message: 'Invalid full name. Must contain only letters, spaces, hyphens, or apostrophes'
+        });
+      }
+
+      if (mobileNumber !== undefined && !validateMobileNumber(mobileNumber)) {
+        return res.status(400).json({
+          success: false,
+          message: 'Invalid mobile number. Must contain only digits (7-15), optionally prefixed with +'
         });
       }
 
